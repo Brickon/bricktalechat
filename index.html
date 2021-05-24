@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bricktale Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 0.9.0-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/admin.css">
+</head>
+
+<body>
+<br><br>
+<div style="margin:auto; width:500px;" class="box">
+<div class="columns">
+
+  <div class="column">
+    <p class="bd-notification">
+	<div class="field has-addons">
+	  <div class="control">
+    <input id="msgbar" class="input is-primary" type="text" placeholder="Message">
+  </div>
+    <div class="control">
+    <a id="bttext" class="button is-primary">
+      Send
+    </a>
+  </div>
+	</div>
+	
+	</p>
+    <div class="columns is-mobile">
+      <div class="column">
+        <p id="messages" class="bd-notification">Send ur message here</p>
+      </div>
+
+    </div>
+  </div>
+  
+  
+  </div>
+</div>
+</div>
+
+</body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+    var socket = io.connect('/');
+	socket.on('msg', function(data) {
+	document.getElementById("messages").innerHTML = data.msgdt;
+
+	});
+	
+	//i did not coded that part xd
+	// i only made the server not the client but modified it so
+	$('#bttext').click(function() {
+
+    $.ajax({
+        global: false,
+        type: 'POST',
+        url: '/bt/sendmsg', // missing quotes  
+        dataType: 'html',
+        data: {
+            msg: document.getElementById("msgbar").value
+        },
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (request, status, error) {
+            serviceError();
+        }
+    });
+});
+
+	
+</script>
+</html>
